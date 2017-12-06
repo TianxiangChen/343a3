@@ -32,10 +32,8 @@ CREATE TABLE Room(
   PRIMARY KEY (Room)
 );
 
--- cID is a newly created primary key which is not good
 -- I didnt conser each class need one or more students
--- Not srue what type Grade should be, in handout is "Grade 5" a string
---string
+-- Having new key saves space in other tables
 CREATE TABLE Class(
   cID INTEGER NOT NULL,
   Room VARCHAR(15) NOT NULL,
@@ -48,7 +46,7 @@ CREATE TABLE Class(
 CREATE TABLE TakingClass(
   sID INTEGER REFERENCES Student(sID),
   cID INTEGER REFERENCES Class(cID),
-  PRIMARY KEY(cID, sID) --changed from PRIMARY KEY(cID)
+  PRIMARY KEY(cID, sID)
 );
 
 -- Defind the question type as T/F, Multiple Choice and Numerical
@@ -120,7 +118,7 @@ CREATE TABLE Quiz(
 -- Table contains what questions belong to what quiz
 -- Same quetion in different quiz could have different weight
 CREATE TABLE QuizQuestion(
-  quizID INTEGER REFERENCES Quiz(quizID),
+  quizID VARCHAR(20) REFERENCES Quiz(quizID),
   questionID INT REFERENCES Question_Bank(qID),
   weight INTEGER NOT NULL,
   PRIMARY KEY(quizID, questionID)
@@ -130,8 +128,10 @@ CREATE TABLE QuizQuestion(
 -- Since student need belong to the class taking that question,
 -- same applies to answered
 CREATE TABLE Response(
-  quizID INTEGER REFERENCES Quiz(quizID),
+  quizID VARCHAR(20) REFERENCES Quiz(quizID),
   sID INTEGER REFERENCES Student(sID),
   answered INTEGER REFERENCES Question_Bank(qID),
-  PRIMARY KEY(quizID, sID)
+  answer VARCHAR(50) NOT NULL, --Student may answer anything
+  PRIMARY KEY(quizID, sID, answered)
+
 );

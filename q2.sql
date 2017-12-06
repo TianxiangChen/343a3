@@ -7,15 +7,14 @@ DROP VIEW IF EXISTS TFquestion CASCADE;
 
 CREATE VIEW MCquestion AS
 SELECT Question_Bank.qID AS Question_ID, Question_Bank.Question AS Question_test,
-COUNT(*) AS Num_Hints
--- NULL never contributes to a sum, average, or count
+COUNT(MC_wrong_answer.hint) AS Num_Hints
 FROM Question_Bank NATURAL JOIN MC_wrong_answer
 WHERE Question_Bank.Qtype = 'MC'
 GROUP BY Question_Bank.qID, Question_Bank.Question;
 
 CREATE VIEW NUMquestion AS
 SELECT Question_Bank.qID AS Question_ID, Question_Bank.Question AS Question_test,
-COUNT(*) AS Num_Hints
+COUNT(NUM_wrong_answer.hint) AS Num_Hints
 FROM Question_Bank NATURAL JOIN NUM_wrong_answer
 WHERE Question_Bank.Qtype = 'NUM'
 GROUP BY Question_Bank.qID, Question_Bank.Question;
