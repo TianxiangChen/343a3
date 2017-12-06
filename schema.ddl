@@ -18,7 +18,7 @@ CREATE TABLE Student(
 	SurName VARCHAR(15) NOT NULL,
   PRIMARY KEY (sID),
 	CONSTRAINT valid_sID
-      CHECK (sID <= 10000000000)
+      CHECK (1000000000 <= sID and siD < 10000000000) --changed from sID <= 10000000000
 );
 
 -- One room can only have one teacher
@@ -31,6 +31,7 @@ CREATE TABLE Room(
 -- cID is a newly created primary key which is not good
 -- I didnt conser each class need one or more students
 -- Not srue what type Grade should be, in handout is "Grade 5" a string
+--string
 CREATE TABLE Class(
   cID INTEGER NOT NULL,
   Room VARCHAR(15) NOT NULL,
@@ -43,7 +44,7 @@ CREATE TABLE Class(
 CREATE TABLE TakingClass(
   sID INTEGER REFERENCES Student(sID),
   cID INTEGER REFERENCES Class(cID),
-  PRIMARY KEY(cID)
+  PRIMARY KEY(cID, sID) --changed from PRIMARY KEY(cID)
 );
 
 -- Defind the question type as T/F, Multiple Choice and Numerical
@@ -91,6 +92,7 @@ CREATE TABLE NUM_wrong_answer(
   Lower_bound INT NOT NULL,
   Upper_bound INT CHECK (Upper_bound > Lower_bound) NOT NULL,
 	-- not sure the synax above is correct or not
+    --correct
   hint VARCHAR(255),
   PRIMARY KEY(qID, Lower_bound, Upper_bound)
 );
