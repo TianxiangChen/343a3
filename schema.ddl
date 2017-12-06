@@ -20,7 +20,7 @@ CREATE TABLE Student(
 	SurName VARCHAR(15) NOT NULL,
   PRIMARY KEY (sID),
 	CONSTRAINT valid_sID
-      CHECK (1000000000 <= sID and siD < 10000000000) --changed from sID <= 10000000000
+      CHECK (siD < 10000000000)
 );
 
 
@@ -101,7 +101,6 @@ CREATE TABLE NUM_wrong_answer(
   Upper_bound INT CHECK (Upper_bound > Lower_bound) NOT NULL,
   hint VARCHAR(255),
   PRIMARY KEY(qID, Lower_bound, Upper_bound)
-	-- should this be PRIMARY KEY or UNIQUE? Since bound might be null??? think of (5,inf)
 );
 
 
@@ -131,7 +130,7 @@ CREATE TABLE Response(
   quizID VARCHAR(20) REFERENCES Quiz(quizID),
   sID INTEGER REFERENCES Student(sID),
   answered INTEGER REFERENCES Question_Bank(qID),
-  answer VARCHAR(50) NOT NULL, --Student may answer anything
+  answer VARCHAR(50) NOT NULL, --Student may answer anything,
+	-- for example, 1+1=?. a numerical question, but student can answer "apple" in real case 
   PRIMARY KEY(quizID, sID, answered)
-
 );
