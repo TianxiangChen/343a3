@@ -44,9 +44,6 @@ CREATE TABLE Class(
   FOREIGN KEY (Room) REFERENCES Room
 );
 
---To force every class has at least one student, what about put the cID in TakingClass as PRIMARY KEY
---And REFERENCES to Table Class? Then we need to change the order of these two table since the creation reads the code in order.
-
 -- Record which class the students are in
 CREATE TABLE TakingClass(
   sID INTEGER REFERENCES Student(sID),
@@ -115,7 +112,6 @@ CREATE TABLE Quiz(
   quizID VARCHAR(20) NOT NULL, --According to query 3 it can be string
   Title VARCHAR(50) NOT NULL,
   Class INTEGER REFERENCES Class(cID),
-	-- if change that TakingClass the reference here also need to be changed
   DueBy TIMESTAMP NOT NULL,
   hint_allowed BOOLEAN NOT NULL,
   PRIMARY KEY(quizID)
