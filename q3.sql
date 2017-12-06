@@ -33,7 +33,7 @@ FROM Question_Bank NATURAL JOIN NUM_answer;
 CREATE VIEW StudentMark AS
 SELECT StudentInQuiz.sID AS Student_Number, StudentInQuiz.FullName AS FullName,
 SUM(QuizQuestion.weight) AS Grade
-FROM StudentInQuiz NATURAL JOIN Response NATURAL JOIN QuizQuestion NATURAL JOIN CorrectAnswer
+FROM StudentInQuiz LEFT JOIN Response NATURAL JOIN QuizQuestion NATURAL JOIN CorrectAnswer -- Change to left join since student can answer nothing for a quiz
 WHERE Response.quizID = 'Pr1-220310' AND Response.answered = QuizQuestion.questionID AND Response.answer = CorrectAnswer.answer
 GROUP BY StudentInQuiz.sID, StudentInQuiz.FullName;
 
