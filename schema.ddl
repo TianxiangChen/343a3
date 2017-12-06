@@ -112,9 +112,10 @@ CREATE TABLE NUM_wrong_answer(
 
 -- A table records all info required for a quiz
 CREATE TABLE Quiz(
-  quizID INTEGER NOT NULL,
+  quizID VARCHAR(20) NOT NULL, --According to query 3 it can be string
   Title VARCHAR(50) NOT NULL,
   Class INTEGER REFERENCES Class(cID),
+	-- if change that TakingClass the reference here also need to be changed
   DueBy TIMESTAMP NOT NULL,
   hint_allowed BOOLEAN NOT NULL,
   PRIMARY KEY(quizID)
