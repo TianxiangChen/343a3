@@ -12,6 +12,8 @@ DROP SCHEMA IF EXISTS quizschema cascade;
 CREATE SCHEMA quizschema;
 SET search_path to quizschema;
 
+-- A table storing Student Info: sID, FirstName and SurName
+-- As required, the sID is forced to be a 10-digit number
 CREATE TABLE Student(
 	sID INTEGER NOT NULL,
 	FirstName VARCHAR(15) NOT NULL,
@@ -21,7 +23,9 @@ CREATE TABLE Student(
       CHECK (1000000000 <= sID and siD < 10000000000) --changed from sID <= 10000000000
 );
 
--- One room can only have one teacher
+
+-- Since one room can only have one teacher,
+-- we create a Room table.
 CREATE TABLE Room(
   Room VARCHAR(15) NOT NULL,
   Teacher VARCHAR(15) NOT NULL,
@@ -40,6 +44,9 @@ CREATE TABLE Class(
   FOREIGN KEY (Room) REFERENCES Room
 );
 
+--To force every class has at least one student, what about put the cID in TakingClass as PRIMARY KEY
+--And REFERENCES to Table Class? Then we need to change the order of these two table since the creation reads the code in order.
+
 -- Record which class the students are in
 CREATE TABLE TakingClass(
   sID INTEGER REFERENCES Student(sID),
@@ -51,6 +58,8 @@ CREATE TABLE TakingClass(
 CREATE TYPE Question_type AS ENUM(
 	'TF', 'MC','NUM');
 
+-- Record the basic info of questions
+-- The info here is what every question has regradless its type
 CREATE TABLE Question_Bank(
   qID INTEGER NOT NULL,
   Qtype Question_type NOT NULL,
@@ -58,18 +67,21 @@ CREATE TABLE Question_Bank(
   PRIMARY KEY (qID)
 );
 
+-- A table for correct T/F answer
 CREATE TABLE TF_answer(
   qID INTEGER REFERENCES Question_Bank(qID),
   tf_answer VARCHAR(5) CHECK (tf_answer = 'True' or tf_answer = 'False') NOT NULL,
   PRIMARY KEY(qID)
 );
 
+-- A table for correct multiple choices answers
 CREATE TABLE MC_answer(
   qID INTEGER REFERENCES Question_Bank(qID),
   Correct_answer VARCHAR(255) NOT NULL,
   PRIMARY KEY(qID)
 );
 
+-- A table for wrong multiple choices answers
 -- We placed wrong_answer in another talbe thus saving a hint space
 -- for each question in the correct answer positon
 CREATE TABLE MC_wrong_answer(
@@ -80,24 +92,25 @@ CREATE TABLE MC_wrong_answer(
   PRIMARY KEY(qID, aID)
 );
 
-
+-- A table for correct numerical question answers
 CREATE TABLE NUM_answer(
   qID INTEGER REFERENCES Question_Bank(qID),
   Correct_answer VARCHAR(255) NOT NULL,
   PRIMARY KEY(qID)
 );
 
+-- A table for wrong numerical question answers
 CREATE TABLE NUM_wrong_answer(
   qID INTEGER REFERENCES NUM_answer(qID),
   Lower_bound INT NOT NULL,
   Upper_bound INT CHECK (Upper_bound > Lower_bound) NOT NULL,
-	-- not sure the synax above is correct or not
-    --correct
   hint VARCHAR(255),
   PRIMARY KEY(qID, Lower_bound, Upper_bound)
+	-- should this be PRIMARY KEY or UNIQUE? Since bound might be null??? think of (5,inf)
 );
 
 
+-- A table records all info required for a quiz
 CREATE TABLE Quiz(
   quizID INTEGER NOT NULL,
   Title VARCHAR(50) NOT NULL,
@@ -107,6 +120,7 @@ CREATE TABLE Quiz(
   PRIMARY KEY(quizID)
 );
 
+-- Table contains what questions belong to what quiz
 -- Same quetion in different quiz could have different weight
 CREATE TABLE QuizQuestion(
   quizID INTEGER REFERENCES Quiz(quizID),
