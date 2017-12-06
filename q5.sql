@@ -2,21 +2,21 @@ SET search_path TO quizschema;
 
 DROP VIEW IF EXISTS Questions CASCADE;
 DROP VIEW IF EXISTS AnsweredCount CASCADE;
-DROP VIEW IF EXISTS StudentsInQuiz CASCADE;
+DROP VIEW IF EXISTS StudentInQuiz CASCADE;
 DROP VIEW IF EXISTS CorrectAnswer CASCADE;
 
 CREATE VIEW Questions AS
-SELECT Question_Bank.qID AS qID
-FROM QuizQuestion NATURAL JOIN Quiz NATURAL JOIN TakingClass NATURAL JOIN Class
-WHERE Quiz.quizID = "Pr1-220310" AND  Class.Grade = "8"
-AND Class.Room = "120" AND Room.Teacher = "Mr Higgins";
+SELECT QuizQuestion.questionID AS qID
+FROM QuizQuestion NATURAL JOIN Quiz NATURAL JOIN Room NATURAL JOIN TakingClass NATURAL JOIN Class
+WHERE Quiz.quizID = 'Pr1-220310' AND  Class.Grade = '8'
+AND Class.Room = '120' AND Room.Teacher = 'Mr Higgins';
 
 CREATE VIEW StudentInQuiz AS
 SELECT Student.sID AS sID
 FROM Quiz NATURAL JOIN TakingClass NATURAL JOIN Class
 NATURAL JOIN Room NATURAL JOIN Student
-WHERE Quiz.quizID = "Pr1-220310" AND  Class.Grade = "8"
-AND Class.Room = "120" AND Room.Teacher = "Mr Higgins"
+WHERE Quiz.quizID = 'Pr1-220310' AND  Class.Grade = '8'
+AND Class.Room = '120' AND Room.Teacher = 'Mr Higgins'
 GROUP BY Student.sID, Student.FirstName, Student.SurName;
 
 CREATE VIEW CorrectAnswer AS
@@ -36,4 +36,4 @@ GROUP BY Questions.qID;
 
 
 SELECT qID, correct, incorrect, total - correct - incorrect as no_answer
-FROM AnsweredCount, (count(*) as total FROM StudentInQuiz) num_students;
+FROM AnsweredCount, (SELECT count(*) as total FROM StudentInQuiz) num_students;

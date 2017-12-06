@@ -20,8 +20,7 @@ WHERE Question_Bank.Qtype = 'NUM'
 GROUP BY Question_Bank.qID, Question_Bank.Question;
 
 CREATE VIEW TFquestion AS
-SELECT Question_Bank.qID AS Question_ID, Question_Bank.Question AS Question_test,
-NULL AS Num_Hints
+SELECT Question_Bank.qID AS Question_ID, Question_Bank.Question AS Question_test
 FROM Question_Bank NATURAL JOIN TF_answer
 WHERE Question_Bank.Qtype = 'TF'
 GROUP BY Question_Bank.qID, Question_Bank.Question;
@@ -30,4 +29,4 @@ SELECT * FROM MCquestion
 UNION
 SELECT * FROM NUMquestion
 UNION
-SELECT * FROM TFquestion;
+SELECT *, NULL as Num_Hints FROM TFquestion;
