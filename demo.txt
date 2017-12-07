@@ -1,0 +1,172 @@
+dbsrv1:~/Desktop$ psql csc343h-chentia9
+psql (9.5.10)
+Type "help" for help.
+
+csc343h-chentia9=> \i runner.txt 
+-- Loading schema and data:
+psql:schema.sql:11: NOTICE:  schema "quizschema" does not exist, skipping
+DROP SCHEMA
+CREATE SCHEMA
+SET
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TYPE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+SET
+INSERT 0 5
+INSERT 0 3
+INSERT 0 9
+INSERT 0 1
+INSERT 0 1
+INSERT 0 3
+INSERT 0 6
+INSERT 0 2
+INSERT 0 2
+INSERT 0 6
+INSERT 0 1
+INSERT 0 4
+INSERT 0 14
+-- Query 1:
+SET
+    fullname     | student_number 
+-----------------+----------------
+ Peter Dinklage  |       10784522
+ Emilia Clarke   |      997733991
+ Lena Headey     |      998801234
+ Sophie Turner   |     1111111111
+ Maisie Williams |     2222222222
+ Kit Harrington  |     5555555555
+(6 rows)
+
+-- Query 2:
+SET
+psql:q2.sql:3: NOTICE:  view "mcquestion" does not exist, skipping
+DROP VIEW
+psql:q2.sql:4: NOTICE:  view "numquestion" does not exist, skipping
+DROP VIEW
+psql:q2.sql:5: NOTICE:  view "tfquestion" does not exist, skipping
+DROP VIEW
+psql:q2.sql:6: NOTICE:  view "result" does not exist, skipping
+DROP VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+ question_id |                                 question_test                                  | num_hints 
+-------------+--------------------------------------------------------------------------------+-----------
+         566 | The Prime Minister, Justin Trudeau, is Canada's Head of State.                 |          
+         601 | During the "Quiet Revolution," Quebec experienced rapid change. In what       +|         3
+             |     decade did this occur? (Enter the year that began the decade, e.g., 1840.) | 
+         625 | What is the Underground Railroad?                                              |         3
+         782 | What do you promise when you take the oath of citizenship?                     |         1
+         790 | During the War of 1812 the Americans burned down the Parliament Buildings in  +|         0
+             |     York (now Toronto). What did the British and Canadians do in return?       | 
+(5 rows)
+
+-- Query 3:
+SET
+psql:q3.sql:3: NOTICE:  view "studentinquiz" does not exist, skipping
+DROP VIEW
+psql:q3.sql:4: NOTICE:  view "quiztotalscore" does not exist, skipping
+DROP VIEW
+psql:q3.sql:5: NOTICE:  view "studentmark" does not exist, skipping
+DROP VIEW
+psql:q3.sql:6: NOTICE:  view "correctanswer" does not exist, skipping
+DROP VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+    sid     |    fullname    | grade | totalscore 
+------------+----------------+-------+------------
+   10784522 | Peter Dinklage |     8 |          8
+  997733991 | Emilia Clarke  |     5 |          8
+  998801234 | Lena Headey    |     3 |          8
+ 1111111111 | Sophie Turner  |     0 |          8
+ 5555555555 | Kit Harrington |     1 |          8
+(5 rows)
+
+-- Query 4:
+SET
+psql:q4.sql:3: NOTICE:  drop cascades to 3 other objects
+DETAIL:  drop cascades to view studentmark
+drop cascades to view studentzeromark
+drop cascades to view allstudentmark
+DROP VIEW
+psql:q4.sql:4: NOTICE:  view "questions" does not exist, skipping
+DROP VIEW
+psql:q4.sql:5: NOTICE:  view "studentanswered" does not exist, skipping
+DROP VIEW
+psql:q4.sql:6: NOTICE:  view "studentallanswered" does not exist, skipping
+DROP VIEW
+DROP VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+    sid     | qid |                                      text                                      
+------------+-----+--------------------------------------------------------------------------------
+ 1111111111 | 566 | The Prime Minister, Justin Trudeau, is Canada's Head of State.
+ 1111111111 | 601 | During the "Quiet Revolution," Quebec experienced rapid change. In what       +
+            |     |     decade did this occur? (Enter the year that began the decade, e.g., 1840.)
+ 1111111111 | 625 | What is the Underground Railroad?
+ 1111111111 | 790 | During the War of 1812 the Americans burned down the Parliament Buildings in  +
+            |     |     York (now Toronto). What did the British and Canadians do in return?
+ 5555555555 | 601 | During the "Quiet Revolution," Quebec experienced rapid change. In what       +
+            |     |     decade did this occur? (Enter the year that began the decade, e.g., 1840.)
+ 5555555555 | 625 | What is the Underground Railroad?
+(6 rows)
+
+-- Query 5:
+SET
+psql:q5.sql:3: NOTICE:  drop cascades to 3 other objects
+DETAIL:  drop cascades to view studentanswered
+drop cascades to view studentallanswered
+drop cascades to view result
+DROP VIEW
+DROP VIEW
+DROP VIEW
+psql:q5.sql:6: NOTICE:  view "correctansweredcount" does not exist, skipping
+DROP VIEW
+psql:q5.sql:7: NOTICE:  view "wronganswer" does not exist, skipping
+DROP VIEW
+psql:q5.sql:8: NOTICE:  view "wrongansweredcount" does not exist, skipping
+DROP VIEW
+psql:q5.sql:9: NOTICE:  view "notanswered" does not exist, skipping
+DROP VIEW
+psql:q5.sql:10: NOTICE:  view "notansweredcount" does not exist, skipping
+DROP VIEW
+psql:q5.sql:11: NOTICE:  view "result" does not exist, skipping
+DROP VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+ qid | correct | incorrect | not_answered 
+-----+---------+-----------+--------------
+ 566 |       3 |         1 |            1
+ 601 |       2 |         1 |            2
+ 625 |       2 |         1 |            2
+ 790 |       2 |         2 |            1
+(4 rows)
+
+csc343h-chentia9=> 
+

@@ -27,6 +27,7 @@ FROM StudentInQuiz NATURAL JOIN Response, Questions
 WHERE Response.quizID = 'Pr1-220310' AND Response.answered = Questions.qID
 ORDER BY StudentInQuiz.sID, Response.answered;
 
+-- A temp table for taking except
 CREATE VIEW StudentAllAnswered AS
 SELECT StudentInQuiz.sID AS sID, Questions.qID AS qID, Questions.text AS text
 FROM StudentInQuiz, Questions
