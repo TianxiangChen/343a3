@@ -1,10 +1,20 @@
-dbsrv1:~/Desktop$ psql csc343h-chentia9
-psql (9.5.10)
-Type "help" for help.
-
-csc343h-chentia9=> \i runner.txt 
+csc343h-macdou64=> \i runner.txt 
 -- Loading schema and data:
-psql:schema.sql:11: NOTICE:  schema "quizschema" does not exist, skipping
+psql:schema.sql:32: NOTICE:  drop cascades to 14 other objects
+DETAIL:  drop cascades to table student
+drop cascades to table room
+drop cascades to table class
+drop cascades to table takingclass
+drop cascades to type question_type
+drop cascades to table question_bank
+drop cascades to table tf_answer
+drop cascades to table mc_answer
+drop cascades to table mc_wrong_answer
+drop cascades to table num_answer
+drop cascades to table num_wrong_answer
+drop cascades to table quiz
+drop cascades to table quizquestion
+drop cascades to table response
 DROP SCHEMA
 CREATE SCHEMA
 SET
@@ -167,6 +177,4 @@ CREATE VIEW
  625 |       2 |         1 |            2
  790 |       2 |         2 |            1
 (4 rows)
-
-csc343h-chentia9=> 
 

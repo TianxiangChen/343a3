@@ -2,18 +2,31 @@
 ---------------------------- Preliminary questions: ----------------------------
 --------------------------------------------------------------------------------
 ---- What constraints from the domain could not be enforced?
----- Those attributes need to be referenced back multiple times.
----- For example, the sID and answered(qID) in response.
----- We just reference them as sID and qID from Student and Question_bank, respectively.
----- This is the general constraints. But, strictly, the student must be the one
----- on that particular quiz, the question also need to be on the particular quiz.
----- Same applies for some other attributes, too.
+----
+---- All of the constraints are enforceable, although some would make the schema
+---- harder to use if enforced due to added complexity.
+----
 --------------------------------------------------------------------------------
 ---- What constraints that could have been enforced were not enforced? Why not?
+----
 ---- Each Class must have one or more students.
 ---- We can do this by creating a larger table which contains the class info
----- with the sID, the stduent who is taken it. Each row will be one (cID, sID, ClassInfo)
----- By doing this we will create a lot of redudent data of class info so we chose not to do it.
+---- with the sID, the student who is taken it. Each row will be one (cID, sID, ClassInfo)
+---- By doing this we will create a lot of redundant data of class info so we chose not to do it.
+---- 
+---- The constraints that all questions have one correct answer, all multiple choice 
+---- questions have at least one wrong answer and all quizes have at least one question 
+---- are ignored for similar reasons to the constraint that all classes have at least one student. 
+---- These constraints may be enforced through the creation of new cumbersome attributes and tables, 
+---- however we feel these would complicate the usage of the schema more than they are worth. 
+---- 
+---- For example, we could add three new id attributes for each different question type to each 
+---- Question_Bank entry where two are null and the last is not, enforced by check constraints comparing
+---- with the question's type. For a T/F question, the new TF_id is a unique nullable foreign key
+---- referencing a new id attribute in the TF_answer table. These two keys would circularly reference eachother,
+---- ensuring that all TF questions have one answer. New id attributes in the other two correct answer tables
+---- would accomplish the same goal for the other question types, ensuring all question have one answer.
+---- 
 --------------------------------------------------------------------------------
 
 DROP SCHEMA IF EXISTS quizschema cascade;
@@ -31,7 +44,6 @@ CREATE TABLE Student(
       CHECK (siD < 10000000000)
 );
 
-
 -- Since one room can only have one teacher,
 -- we create a Room table.
 CREATE TABLE Room(
@@ -40,8 +52,7 @@ CREATE TABLE Room(
   PRIMARY KEY (Room)
 );
 
--- I didnt conser each class need one or more students
--- Having new key saves space in other tables
+-- Having new key cID saves space in other tables
 CREATE TABLE Class(
   cID INTEGER NOT NULL,
   Room VARCHAR(15) NOT NULL,
@@ -50,14 +61,14 @@ CREATE TABLE Class(
   FOREIGN KEY (Room) REFERENCES Room
 );
 
--- Record which class the students are in
+-- Record which classes the students are in
 CREATE TABLE TakingClass(
   sID BIGINT REFERENCES Student(sID),
   cID INTEGER REFERENCES Class(cID),
   PRIMARY KEY(cID, sID)
 );
 
--- Defind the question type as T/F, Multiple Choice and Numerical
+-- Define the question type as T/F, Multiple Choice or Numerical
 CREATE TYPE Question_type AS ENUM(
 	'TF', 'MC','NUM');
 
@@ -70,21 +81,21 @@ CREATE TABLE Question_Bank(
   PRIMARY KEY (qID)
 );
 
--- A table for correct T/F answer
+-- A table for correct T/F answers
 CREATE TABLE TF_answer(
   qID INTEGER REFERENCES Question_Bank(qID),
   tf_answer VARCHAR(5) CHECK (tf_answer = 'True' or tf_answer = 'False') NOT NULL,
   PRIMARY KEY(qID)
 );
 
--- A table for correct multiple choices answers
+-- A table for correct multiple choice answers
 CREATE TABLE MC_answer(
   qID INTEGER REFERENCES Question_Bank(qID),
   Correct_answer VARCHAR(255) NOT NULL,
   PRIMARY KEY(qID)
 );
 
--- A table for wrong multiple choices answers
+-- A table for wrong multiple choice answers
 -- We placed wrong_answer in another talbe thus saving a hint space
 -- for each question in the correct answer positon
 CREATE TABLE MC_wrong_answer(
@@ -111,19 +122,19 @@ CREATE TABLE NUM_wrong_answer(
   PRIMARY KEY(qID, Lower_bound, Upper_bound)
 );
 
-
--- A table records all info required for a quiz
+-- Records all info required for a quiz
 CREATE TABLE Quiz(
-  quizID VARCHAR(20) NOT NULL, --According to query 3 it can be string
+  quizID VARCHAR(20) NOT NULL,
   Title VARCHAR(50) NOT NULL,
   Class INTEGER REFERENCES Class(cID),
   DueBy TIMESTAMP NOT NULL,
   hint_allowed BOOLEAN NOT NULL,
-  PRIMARY KEY(quizID)
+  PRIMARY KEY(quizID),
+  UNIQUE (quizID, Class)
 );
 
 -- Table contains what questions belong to what quiz
--- Same quetion in different quiz could have different weight
+-- Same question in different quiz could have different weight
 CREATE TABLE QuizQuestion(
   quizID VARCHAR(20) REFERENCES Quiz(quizID),
   questionID INT REFERENCES Question_Bank(qID),
@@ -131,14 +142,17 @@ CREATE TABLE QuizQuestion(
   PRIMARY KEY(quizID, questionID)
 );
 
--- Need a double reference for student and answered
--- Since student need belong to the class taking that question,
--- same applies to answered
+-- Stores a student's response for a question in a quiz
+-- for a class they are in
 CREATE TABLE Response(
   quizID VARCHAR(20) REFERENCES Quiz(quizID),
   sID BIGINT REFERENCES Student(sID),
+  cID INT REFERENCES Class(cID),
   answered INTEGER REFERENCES Question_Bank(qID),
   answer VARCHAR(255) NOT NULL, --Student may answer anything,
 	-- for example, 1+1=?. a numerical question, but student can answer "apple" in real case
-  PRIMARY KEY(quizID, sID, answered)
+  PRIMARY KEY(quizID, sID, answered),
+  FOREIGN KEY (answered, quizID) REFERENCES QuizQuestion(questionID, quizID),
+  FOREIGN KEY (sID, cID) REFERENCES TakingClass,
+  FOREIGN KEY (quizID, cID) REFERENCES Quiz(quizID, Class)
 );
