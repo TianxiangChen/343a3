@@ -36,7 +36,6 @@ SUM(QuizQuestion.weight) AS Grade
 FROM StudentInQuiz JOIN Response ON StudentInQuiz.sID = Response.sID AND Response.quizID = 'Pr1-220310'
 JOIN QuizQuestion ON Response.answered = QuizQuestion.questionID
 NATURAL JOIN CorrectAnswer
--- Change to left outer join since student can answer nothing for a quiz
 GROUP BY StudentInQuiz.sID, StudentInQuiz.FullName;
 
 
