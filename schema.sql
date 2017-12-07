@@ -2,10 +2,15 @@
 ---------------------------- Preliminary questions: ----------------------------
 --------------------------------------------------------------------------------
 ---- What constraints from the domain could not be enforced?
---
+---- Those attributes need to be referenced back multiple times.
+---- For example, the sID and answered(qID) in response.
+---- We just reference them as sID and qID from Student and Question_bank, respectively.
+---- But, the student must be the one on that particular quiz, the question also need
+---- to be on the particular quiz.
+---- Same applies for some other attributes, too.
 --------------------------------------------------------------------------------
 ---- What constraints that could have been enforced were not enforced? Why not?
---   Each Class must have one or more students.
+---- Each Class must have one or more students.
 ---- We can do this by creating a larger table which contains the class info
 ---- with the sID, the stduent who is taken it. Each row will be one (cID, sID, ClassInfo)
 ---- By doing this we will create a lot of redudent data of class info so we chose not to do it.
