@@ -87,18 +87,18 @@ INSERT INTO QuizQuestion (quizID, questionID, weight) VALUES
     ('Pr1-220310', 625, 2);
 
 -- Record student's performance on the quiz
-INSERT INTO Response (quizID, sID, answered,answer) VALUES
-    ('Pr1-220310', 0998801234, 601, '1950'),
-    ('Pr1-220310', 0998801234, 566, 'False'),
-    ('Pr1-220310', 0998801234, 790, 'They expanded their defence system, including Fort York'),
-    ('Pr1-220310', 0998801234, 625, 'A network used by slaves who escaped the United States into Canada'),
-    ('Pr1-220310', 0010784522, 601, '1960'),
-    ('Pr1-220310', 0010784522, 566, 'False'),
-    ('Pr1-220310', 0010784522, 790, 'They burned down the White House in Washington D.C.'),
-    ('Pr1-220310', 0010784522, 625, 'A network used by slaves who escaped the United States into Canada'),
-    ('Pr1-220310', 0997733991, 601, '1960'),
-    ('Pr1-220310', 0997733991, 566, 'True'),
-    ('Pr1-220310', 0997733991, 790, 'They burned down the White House in Washington D.C.'),
-    ('Pr1-220310', 0997733991, 625, 'The CPR''s secret railway line'),
-    ('Pr1-220310', 5555555555, 566, 'False'),
-    ('Pr1-220310', 5555555555, 790, 'They captured Niagara Falls');
+INSERT INTO Response (quizID, sID, cID, answered,answer) VALUES
+    ('Pr1-220310', 0998801234, 1, 601, '1950'),
+    ('Pr1-220310', 0998801234, 1, 566, 'False'),
+    ('Pr1-220310', 0998801234, 1, 790, 'They expanded their defence system, including Fort York'),
+    ('Pr1-220310', 0998801234, 1, 625, 'A network used by slaves who escaped the United States into Canada'),
+    ('Pr1-220310', 0010784522, 1, 601, '1960'),
+    ('Pr1-220310', 0010784522, 1, 566, 'False'),
+    ('Pr1-220310', 0010784522, 1, 790, 'They burned down the White House in Washington D.C.'),
+    ('Pr1-220310', 0010784522, 1, 625, 'A network used by slaves who escaped the United States into Canada'),
+    ('Pr1-220310', 0997733991, 1, 601, '1960'),
+    ('Pr1-220310', 0997733991, 1, 566, 'True'),
+    ('Pr1-220310', 0997733991, 1, 790, 'They burned down the White House in Washington D.C.'),
+    ('Pr1-220310', 0997733991, 1, 625, 'The CPR''s secret railway line'),
+    ('Pr1-220310', 5555555555, 1, 566, 'False'),
+    ('Pr1-220310', 5555555555, 1, 790, 'They captured Niagara Falls');

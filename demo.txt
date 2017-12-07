@@ -1,20 +1,23 @@
+psql (9.5.10)
+Type "help" for help.
+
 csc343h-macdou64=> \i runner.txt 
 -- Loading schema and data:
 psql:schema.sql:32: NOTICE:  drop cascades to 14 other objects
-DETAIL:  drop cascades to table student
-drop cascades to table room
-drop cascades to table class
-drop cascades to table takingclass
-drop cascades to type question_type
-drop cascades to table question_bank
-drop cascades to table tf_answer
-drop cascades to table mc_answer
-drop cascades to table mc_wrong_answer
-drop cascades to table num_answer
-drop cascades to table num_wrong_answer
-drop cascades to table quiz
-drop cascades to table quizquestion
-drop cascades to table response
+DETAIL:  drop cascades to table quizschema.student
+drop cascades to table quizschema.room
+drop cascades to table quizschema.class
+drop cascades to table quizschema.takingclass
+drop cascades to type quizschema.question_type
+drop cascades to table quizschema.question_bank
+drop cascades to table quizschema.tf_answer
+drop cascades to table quizschema.mc_answer
+drop cascades to table quizschema.mc_wrong_answer
+drop cascades to table quizschema.num_answer
+drop cascades to table quizschema.num_wrong_answer
+drop cascades to table quizschema.quiz
+drop cascades to table quizschema.quizquestion
+drop cascades to table quizschema.response
 DROP SCHEMA
 CREATE SCHEMA
 SET

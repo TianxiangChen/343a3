@@ -36,7 +36,7 @@ SET search_path to quizschema;
 -- A table storing Student Info: sID, FirstName and SurName
 -- As required, the sID is forced to be a 10-digit number
 CREATE TABLE Student(
-	sID BIGINT NOT NULL,
+	sID BIGINT,
 	FirstName VARCHAR(15) NOT NULL,
 	SurName VARCHAR(15) NOT NULL,
   PRIMARY KEY (sID),
@@ -47,7 +47,7 @@ CREATE TABLE Student(
 -- Since one room can only have one teacher,
 -- we create a Room table.
 CREATE TABLE Room(
-  Room VARCHAR(15) NOT NULL,
+  Room VARCHAR(15),
   Teacher VARCHAR(15) NOT NULL,
   PRIMARY KEY (Room)
 );
@@ -126,7 +126,7 @@ CREATE TABLE NUM_wrong_answer(
 CREATE TABLE Quiz(
   quizID VARCHAR(20) NOT NULL,
   Title VARCHAR(50) NOT NULL,
-  Class INTEGER REFERENCES Class(cID),
+  Class INTEGER REFERENCES Class(cID) NOT NULL,
   DueBy TIMESTAMP NOT NULL,
   hint_allowed BOOLEAN NOT NULL,
   PRIMARY KEY(quizID),
@@ -147,12 +147,12 @@ CREATE TABLE QuizQuestion(
 CREATE TABLE Response(
   quizID VARCHAR(20) REFERENCES Quiz(quizID),
   sID BIGINT REFERENCES Student(sID),
-  cID INT REFERENCES Class(cID),
+  cID INTEGER REFERENCES Class(cID) NOT NULL,
   answered INTEGER REFERENCES Question_Bank(qID),
   answer VARCHAR(255) NOT NULL, --Student may answer anything,
 	-- for example, 1+1=?. a numerical question, but student can answer "apple" in real case
   PRIMARY KEY(quizID, sID, answered),
   FOREIGN KEY (answered, quizID) REFERENCES QuizQuestion(questionID, quizID),
-  FOREIGN KEY (sID, cID) REFERENCES TakingClass,
+  FOREIGN KEY (sID, cID) REFERENCES TakingClass(sID, cID),
   FOREIGN KEY (quizID, cID) REFERENCES Quiz(quizID, Class)
 );
