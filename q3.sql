@@ -10,8 +10,8 @@ SELECT Student.sID AS sID,
 CONCAT(Student.FirstName,' ',Student.SurName) AS FullName
 FROM Quiz NATURAL JOIN TakingClass NATURAL JOIN Class
 NATURAL JOIN Room NATURAL JOIN Student
-WHERE Quiz.quizID = 'Pr1-220310' AND  Class.Grade = '8'
-AND Class.Room = '120' AND Room.Teacher = 'Mr Higgins'
+WHERE Quiz.quizID = 'Pr1-220310' AND  Class.Grade = 'grade 8'
+AND Class.Room = 'room 120' AND Room.Teacher = 'Mr Higgins'
 GROUP BY Student.sID, Student.FirstName, Student.SurName;
 
 CREATE VIEW QuizTotalScore AS
@@ -31,11 +31,32 @@ SELECT qID, Question, CAST(Correct_answer AS VARCHAR(20)) AS answer
 FROM Question_Bank NATURAL JOIN NUM_answer;
 
 CREATE VIEW StudentMark AS
-SELECT StudentInQuiz.sID AS Student_Number, StudentInQuiz.FullName AS FullName,
+SELECT StudentInQuiz.sID AS sID, StudentInQuiz.FullName AS FullName,
 SUM(QuizQuestion.weight) AS Grade
-FROM StudentInQuiz LEFT JOIN Response NATURAL JOIN QuizQuestion NATURAL JOIN CorrectAnswer -- Change to left join since student can answer nothing for a quiz
-WHERE Response.quizID = 'Pr1-220310' AND Response.answered = QuizQuestion.questionID AND Response.answer = CorrectAnswer.answer
+FROM StudentInQuiz JOIN Response ON StudentInQuiz.sID = Response.sID AND Response.quizID = 'Pr1-220310'
+JOIN QuizQuestion ON Response.answered = QuizQuestion.questionID
+NATURAL JOIN CorrectAnswer
+-- Change to left outer join since student can answer nothing for a quiz
 GROUP BY StudentInQuiz.sID, StudentInQuiz.FullName;
 
+
+-- CornerCase: Student didnt answer any question,
+-- which is not covered in the query above,
+-- since it will not be in response table.
+CREATE VIEW StudentZeroMark AS
 SELECT *
-FROM StudentMark NATURAL JOIN QuizTotalScore;
+FROM StudentInQuiz
+EXCEPT
+SELECT sID, FullName
+FROM StudentMark;
+
+
+CREATE VIEW AllStudentMark AS
+SELECT *
+FROM StudentMark NATURAL JOIN QuizTotalScore
+UNION
+SELECT sID, FullName, 0 AS Grade, TotalScore
+FROM StudentZeroMark NATURAL JOIN QuizTotalScore;
+
+SELECT * FROM AllStudentMark
+ORDER BY sID;

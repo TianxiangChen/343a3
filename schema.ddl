@@ -15,7 +15,7 @@ SET search_path to quizschema;
 -- A table storing Student Info: sID, FirstName and SurName
 -- As required, the sID is forced to be a 10-digit number
 CREATE TABLE Student(
-	sID INTEGER NOT NULL,
+	sID BIGINT NOT NULL,
 	FirstName VARCHAR(15) NOT NULL,
 	SurName VARCHAR(15) NOT NULL,
   PRIMARY KEY (sID),
@@ -44,7 +44,7 @@ CREATE TABLE Class(
 
 -- Record which class the students are in
 CREATE TABLE TakingClass(
-  sID INTEGER REFERENCES Student(sID),
+  sID BIGINT REFERENCES Student(sID),
   cID INTEGER REFERENCES Class(cID),
   PRIMARY KEY(cID, sID)
 );
@@ -128,9 +128,9 @@ CREATE TABLE QuizQuestion(
 -- same applies to answered
 CREATE TABLE Response(
   quizID VARCHAR(20) REFERENCES Quiz(quizID),
-  sID INTEGER REFERENCES Student(sID),
+  sID BIGINT REFERENCES Student(sID),
   answered INTEGER REFERENCES Question_Bank(qID),
-  answer VARCHAR(50) NOT NULL, --Student may answer anything,
-	-- for example, 1+1=?. a numerical question, but student can answer "apple" in real case 
+  answer VARCHAR(255) NOT NULL, --Student may answer anything,
+	-- for example, 1+1=?. a numerical question, but student can answer "apple" in real case
   PRIMARY KEY(quizID, sID, answered)
 );

@@ -20,7 +20,7 @@ INSERT INTO MC_answer (qID, Correct_answer) VALUES
 INSERT INTO MC_wrong_answer (qID, aID, wrong_answer, hint) VALUES
     (782, 1, 'To pledge your allegiance to the flag and fulfill the duties of a Canadian', NULL),
     (782, 2, 'To pledge your allegiance to the flag and fulfill the duties of a Canadian', 'Think regally.'),
-    (782, 3, 'To pledge your loyalty to Canada from sea to sea'),
+    (782, 3, 'To pledge your loyalty to Canada from sea to sea', NULL),
     (625, 1, 'The first railway to cross Canada', 'The Underground Railroad was generally south to north,
     not east-west.'),
     (625, 2, 'The CPR''s secret railway line', 'The Underground Railroad was secret, but it had nothing to do
@@ -66,7 +66,7 @@ INSERT INTO Class (cID, Room, Grade) VALUES
     (2, 'room 366', 'grade 5');
 
 -- Build Student taking Class relation
-INSERT INTO TakingClass () VALUES
+INSERT INTO TakingClass (sID, cID) VALUES
     (0998801234, 1),
     (0010784522, 1),
     (0997733991, 1),
@@ -77,7 +77,7 @@ INSERT INTO TakingClass () VALUES
 -- Define basic info about the quiz
 INSERT INTO Quiz (quizID, Title, Class, DueBy, hint_allowed) VALUES
     ('Pr1-220310', 'Citizenship Test Practise Questions', 1, '2017-10-01 13:30:00
-', 1);
+', 'True');
 
 -- List the questions inside the quiz
 INSERT INTO QuizQuestion (quizID, questionID, weight) VALUES
@@ -93,8 +93,12 @@ INSERT INTO Response (quizID, sID, answered,answer) VALUES
     ('Pr1-220310', 0998801234, 790, 'They expanded their defence system, including Fort York'),
     ('Pr1-220310', 0998801234, 625, 'A network used by slaves who escaped the United States into Canada'),
     ('Pr1-220310', 0010784522, 601, '1960'),
-    ('Pr1-220310', 0010784522, 566, 'True'),
+    ('Pr1-220310', 0010784522, 566, 'False'),
     ('Pr1-220310', 0010784522, 790, 'They burned down the White House in Washington D.C.'),
-    ('Pr1-220310', 0010784522, 625, 'The CPR''s secret railway line'),
+    ('Pr1-220310', 0010784522, 625, 'A network used by slaves who escaped the United States into Canada'),
+    ('Pr1-220310', 0997733991, 601, '1960'),
+    ('Pr1-220310', 0997733991, 566, 'True'),
+    ('Pr1-220310', 0997733991, 790, 'They burned down the White House in Washington D.C.'),
+    ('Pr1-220310', 0997733991, 625, 'The CPR''s secret railway line'),
     ('Pr1-220310', 5555555555, 566, 'False'),
     ('Pr1-220310', 5555555555, 790, 'They captured Niagara Falls');
