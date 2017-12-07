@@ -5,8 +5,8 @@
 ---- Those attributes need to be referenced back multiple times.
 ---- For example, the sID and answered(qID) in response.
 ---- We just reference them as sID and qID from Student and Question_bank, respectively.
----- But, the student must be the one on that particular quiz, the question also need
----- to be on the particular quiz.
+---- This is the general constraints. But, strictly, the student must be the one
+---- on that particular quiz, the question also need to be on the particular quiz.
 ---- Same applies for some other attributes, too.
 --------------------------------------------------------------------------------
 ---- What constraints that could have been enforced were not enforced? Why not?
